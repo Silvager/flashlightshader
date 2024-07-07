@@ -1,4 +1,5 @@
 #version 330 compatibility
+#include "lib/common.glsl"
 
 out vec2 texCoord;
 out vec2 lightCoord;
@@ -17,8 +18,8 @@ void main() {
     vec3 normalizedVertexPos = normalize(gl_Vertex.xyz);
     float distanceToView = length(normalizedVertexPos-playerLookVector);
     vertexDistance = length((gl_ModelViewMatrix * gl_Vertex).xyz);
-    if ((distanceToView < 0.3) && (heldBlockLightValue > 0)) {
-        flashlightLightStrength = max(0.8-(vertexDistance/50.0), 0.0);
+    if ((distanceToView < FLASHLIGHT_BEAM_WIDTH) && (heldBlockLightValue > 0)) {
+        flashlightLightStrength = max(0.8-(vertexDistance/FLASHLIGHT_DISTANCE), 0.0);
     } else {
         flashlightLightStrength = 0.0;
     }

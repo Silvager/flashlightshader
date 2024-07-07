@@ -1,0 +1,10 @@
+screen.FLASHLIGHT_OPTIONS = Flashlight Options
+
+option.FLASHLIGHT_COLOR_R = Flashlight red amount
+suffix.FLASHLIGHT_COLOR_R=%
+option.FLASHLIGHT_COLOR_G = Flashlight green amount
+suffix.FLASHLIGHT_COLOR_R=%
+option.FLASHLIGHT_COLOR_B = Flashlight blue amount
+suffix.FLASHLIGHT_COLOR_R=%
+
+option.FLASHLLIGHT_BEAM_WIDTH = Flashlight beam width

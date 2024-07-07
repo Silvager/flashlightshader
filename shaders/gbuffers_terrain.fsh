@@ -1,4 +1,5 @@
 #version 330 compatibility
+#include "/lib/common.glsl"
 
 in vec2 texCoord;
 in vec2 lightCoord;
@@ -10,6 +11,9 @@ in float moonLighting;
 uniform sampler2D gtexture;
 uniform sampler2D lightmap;
 uniform float nightVision;
+uniform float fogStart;
+uniform float fogEnd;
+uniform vec3 fogColor;
 
 layout(location = 0) out vec4 pixelColor;
 
@@ -30,28 +34,34 @@ void main() {
     if (nightVision > 0.0) {
         makeTexturesBw(newVertexColor, texColor);
         lightColor = vec4(1.0, 1.0, 1.0, 1.0);
-    } else {
-        lightBrightness = lightBrightness + flashlightLightStrength;
-        if (lightBrightness < 0.2) { //If in absolute darkness, see zilch
-            lightBrightness = 0.0;
-        } else if (lightBrightness < 0.4) {
-            if (vertexDistance < moonLighting*50.0) {
-                float max_brightness = 0.6 * moonLighting;
-                float distanceAway = (vertexDistance/(moonLighting*50));
-                lightBrightness = max_brightness*(1.0-distanceAway);
-                if (flashlightLightStrength == 0.0) {
-                    makeTexturesBw(newVertexColor, texColor);
-                }
-            } else {
+        } else if (MEGA_DARKNESS_ENABLED == 1) {
+            lightBrightness = lightBrightness + flashlightLightStrength;
+            if (lightBrightness < 0.2) { //If in absolute darkness, see zilch
                 lightBrightness = 0.0;
-            }
+            } else if (lightBrightness < 0.4) {
+                if (vertexDistance < moonLighting*50.0) {
+                    float max_brightness = 0.6 * moonLighting;
+                    float distanceAway = (vertexDistance/(moonLighting*50));
+                    lightBrightness = max_brightness*(1.0-distanceAway);
+                    if (flashlightLightStrength == 0.0) {
+                        makeTexturesBw(newVertexColor, texColor);
+                    }
+                } else {
+                    lightBrightness = 0.0;
+                }
+            lightColor = lightColor*lightBrightness;
         }
-        lightColor = lightColor*lightBrightness;
     }
     if (flashlightLightStrength != 0.0) {
-    vec4 flashlightColor = vec4(flashlightLightStrength, flashlightLightStrength, 0.0, 1.0);
-    lightColor += flashlightColor;
+    vec4 modifiedFlashlightColor = vec4(flashlightColor.rgb*flashlightLightStrength, 1.0);
+    lightColor += modifiedFlashlightColor;
     }
-    pixelColor = texColor * newVertexColor * lightColor;
+    vec4 unFogColor = texColor * newVertexColor * lightColor;
+    if (vertexDistance > fogStart) {
+        float fogValue = vertexDistance < fogEnd ? smoothstep(fogStart, fogEnd, vertexDistance) : 1.0;
+        pixelColor = vec4(mix(unFogColor.rgb, fogColor, fogValue), unFogColor.a);
+    } else {
+        pixelColor = unFogColor;
+    }
 }
 // mix it all into one thing
