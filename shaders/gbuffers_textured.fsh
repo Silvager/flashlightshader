@@ -9,8 +9,16 @@ in float moonLighting;
 
 uniform sampler2D gtexture;
 uniform sampler2D lightmap;
+uniform float nightVision;
 
 layout(location = 0) out vec4 pixelColor;
+
+void makeTexturesBw(inout vec4 newVertexColor, inout vec4 texColor) {
+    float blackWhiteTexCol = (texColor.r+texColor.g+texColor.b)/3.0;
+    float blackWhiteVertexCol = (vertexColor.r+vertexColor.g+vertexColor.b)/3.0;
+    newVertexColor = vec4(blackWhiteVertexCol, blackWhiteVertexCol, blackWhiteVertexCol, newVertexColor.a);
+    texColor = vec4(blackWhiteTexCol, blackWhiteTexCol, blackWhiteTexCol, texColor.a);
+}
 
 void main() {
     vec4 texColor = texture(gtexture, texCoord);
@@ -19,25 +27,27 @@ void main() {
     vec4 lightColor = texture(lightmap, lightCoord);
     float lightBrightness = (lightColor.r + lightColor.g + lightColor.b)/3.0;
     vec4 newVertexColor = vertexColor;
-    lightBrightness = lightBrightness + flashlightLightStrength;
-    if (lightBrightness < 0.2) { //If in absolute darkness, see zilch
-        lightBrightness = 0.0;
-    } else if (lightBrightness < 0.4) {
-        if (vertexDistance < moonLighting*50.0) {
-            float max_brightness = 0.6 * moonLighting;
-            float distanceAway = (vertexDistance/(moonLighting*50));
-            lightBrightness = max_brightness*(1.0-distanceAway);
-            if (flashlightLightStrength == 0.0) {
-                float blackWhiteTexCol = (texColor.r+texColor.g+texColor.b)/3.0;
-                float blackWhiteVertexCol = (vertexColor.r+vertexColor.g+vertexColor.b)/3.0;
-                newVertexColor = vec4(blackWhiteVertexCol, blackWhiteVertexCol, blackWhiteVertexCol, newVertexColor.a);
-                texColor = vec4(blackWhiteTexCol, blackWhiteTexCol, blackWhiteTexCol, texColor.a);
-            }
-        } else {
+    if (nightVision > 0.0) {
+        makeTexturesBw(newVertexColor, texColor);
+        lightColor = vec4(1.0, 1.0, 1.0, 1.0);
+    } else {
+        lightBrightness = lightBrightness + flashlightLightStrength;
+        if (lightBrightness < 0.2) { //If in absolute darkness, see zilch
             lightBrightness = 0.0;
+        } else if (lightBrightness < 0.4) {
+            if (vertexDistance < moonLighting*50.0) {
+                float max_brightness = 0.6 * moonLighting;
+                float distanceAway = (vertexDistance/(moonLighting*50));
+                lightBrightness = max_brightness*(1.0-distanceAway);
+                if (flashlightLightStrength == 0.0) {
+                    makeTexturesBw(newVertexColor, texColor);
+                }
+            } else {
+                lightBrightness = 0.0;
+            }
         }
+        lightColor = lightColor*lightBrightness;
     }
-    lightColor = lightColor*lightBrightness;
     if (flashlightLightStrength != 0.0) {
     vec4 flashlightColor = vec4(flashlightLightStrength, flashlightLightStrength, 0.0, 1.0);
     lightColor += flashlightColor;
