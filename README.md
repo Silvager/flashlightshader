@@ -2,4 +2,6 @@
 A shader for Minecraft Java edition
 
 todo:
-- settings u can change
+
+Drop off at the very end. This is because it is only adding color w/flashlight.
+After drop off, flashlight no longer has any effect

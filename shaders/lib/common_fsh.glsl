@@ -49,7 +49,10 @@ vec3 fogColor
         lightColor = lightColor*lightBrightness;
     }
     if (flashlightLightStrength > 0.0) {
-    vec4 modifiedFlashlightColor = vec4(flashlightColor.rgb*flashlightLightStrength, 1.0);
+    vec4 modifiedFlashlightColor = vec4(flashlightColor.rgb*flashlightLightStrength, 0.0);
+    if (lightBrightness < 0.4) {
+    lightColor *= smoothstep(0.0, 1.0, (1.0-(vertexDistance/FLASHLIGHT_DISTANCE)));
+    }
     lightColor += modifiedFlashlightColor;
     }
     vec4 unFogColor = texColor * newVertexColor * lightColor;
