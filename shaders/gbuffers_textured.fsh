@@ -26,6 +26,9 @@ void main() {
     moonLighting,
     gtexture,
     lightmap,
-    nightVision);
+    nightVision,
+    fogStart,
+    fogEnd,
+    fogColor);
 }
 // mix it all into one thing

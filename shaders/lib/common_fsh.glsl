@@ -13,7 +13,10 @@ float flashlightLightStrength,
 float moonLighting,
 sampler2D gtexture,
 sampler2D lightmap,
-float nightVision
+float nightVision,
+float fogStart,
+float fogEnd,
+vec3 fogColor
 ) {
     vec4 texColor = texture(gtexture, texCoord);
     
@@ -24,6 +27,8 @@ float nightVision
     if (nightVision > 0.0) {
         makeTexturesBw(newVertexColor, texColor);
         lightColor = vec4(1.0, 1.0, 1.0, 1.0);
+         } else if (flashlightLightStrength > 0.0) {
+
         } else if (MEGA_DARKNESS_ENABLED == 1) {
             lightBrightness = lightBrightness + flashlightLightStrength;
             if (lightBrightness < 0.2) { //If in absolute darkness, see zilch
@@ -39,13 +44,19 @@ float nightVision
                 } else {
                     lightBrightness = 0.0;
                 }
-            lightColor = lightColor*lightBrightness;
+            
         }
+        lightColor = lightColor*lightBrightness;
     }
-    if (flashlightLightStrength != 0.0) {
+    if (flashlightLightStrength > 0.0) {
     vec4 modifiedFlashlightColor = vec4(flashlightColor.rgb*flashlightLightStrength, 1.0);
     lightColor += modifiedFlashlightColor;
     }
-    vec4 pixelColor = texColor * newVertexColor * lightColor;
-    return pixelColor;
+    vec4 unFogColor = texColor * newVertexColor * lightColor;
+    if (vertexDistance > fogStart) {
+        float fogValue = vertexDistance < fogEnd ? smoothstep(fogStart, fogEnd, vertexDistance) : 1.0;
+        return(vec4(mix(unFogColor.rgb, fogColor, fogValue), unFogColor.a));
+    } else {
+        return(unFogColor);
+    }
 }

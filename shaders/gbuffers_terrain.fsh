@@ -18,7 +18,7 @@ uniform vec3 fogColor;
 layout(location = 0) out vec4 pixelColor;
 
 void main() {
-    vec4 unFogColor = commonFsh(texCoord,
+    pixelColor = commonFsh(texCoord,
     lightCoord,
     vertexColor,
     vertexDistance,
@@ -26,12 +26,9 @@ void main() {
     moonLighting,
     gtexture,
     lightmap,
-    nightVision);
-    if (vertexDistance > fogStart) {
-        float fogValue = vertexDistance < fogEnd ? smoothstep(fogStart, fogEnd, vertexDistance) : 1.0;
-        pixelColor = vec4(mix(unFogColor.rgb, fogColor, fogValue), unFogColor.a);
-    } else {
-        pixelColor = unFogColor;
-    }
+    nightVision,
+    fogStart,
+    fogEnd,
+    fogColor);
 }
 // mix it all into one thing
