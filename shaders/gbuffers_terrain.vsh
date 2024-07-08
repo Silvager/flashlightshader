@@ -19,8 +19,7 @@ void main() {
     vec3 normalizedVertexPos = normalize((gl_Vertex).xyz);
     float distanceToView = length(normalizedVertexPos-playerLookVector);
     vertexDistance = length((gl_ModelViewMatrix * gl_Vertex).xyz);
-    bool flashlightOn = (heldBlockLightValue > 0);
-    if ((distanceToView < FLASHLIGHT_BEAM_WIDTH) && flashlightOn && (vertexDistance < FLASHLIGHT_DISTANCE)) {
+    if ((distanceToView < FLASHLIGHT_BEAM_WIDTH) && (heldBlockLightValue > 0) && (vertexDistance < FLASHLIGHT_DISTANCE)) {
         flashlightLightStrength = smoothstep(0.0, 1.0, (1.0-(vertexDistance/FLASHLIGHT_DISTANCE)));
     } else {
         flashlightLightStrength = 0.0;
