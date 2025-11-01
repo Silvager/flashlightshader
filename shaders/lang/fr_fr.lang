@@ -1,0 +1,15 @@
+screen.FLASHLIGHT_OPTIONS = Paramètres lampe-torche
+
+option.MEGA_DARKNESS_ENABLED = Activer obscurité extrême
+value.MEGA_DARKNESS_ENABLED.0 = Non
+value.MEGA_DARKNESS_ENABLED.1 = Oui
+
+option.FLASHLIGHT_COLOR_R = Quantité rouge
+suffix.FLASHLIGHT_COLOR_R=%
+option.FLASHLIGHT_COLOR_G = Quantité vert
+suffix.FLASHLIGHT_COLOR_G=%
+option.FLASHLIGHT_COLOR_B = Quantité bleu
+suffix.FLASHLIGHT_COLOR_B=%
+
+option.FLASHLIGHT_BEAM_WIDTH = Largeur de faisceau
+option.FLASHLIGHT_DISTANCE = Distance lampe-torche

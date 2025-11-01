@@ -1,15 +1,15 @@
 screen.FLASHLIGHT_OPTIONS = Flashlight Options
 
 option.MEGA_DARKNESS_ENABLED = Enable Mega Darkness
-value.MEGA_DARKNESS_ENABLED.0 = False
-value.MEGA_DARKNESS_ENABLED.1 = True
+value.MEGA_DARKNESS_ENABLED.0 = No
+value.MEGA_DARKNESS_ENABLED.1 = Yes
 
-option.FLASHLIGHT_COLOR_R = Flashlight red amount
+option.FLASHLIGHT_COLOR_R = Red amount
 suffix.FLASHLIGHT_COLOR_R=%
-option.FLASHLIGHT_COLOR_G = Flashlight green amount
+option.FLASHLIGHT_COLOR_G = Green amount
 suffix.FLASHLIGHT_COLOR_G=%
-option.FLASHLIGHT_COLOR_B = Flashlight blue amount
+option.FLASHLIGHT_COLOR_B = Blue amount
 suffix.FLASHLIGHT_COLOR_B=%
 
-option.FLASHLIGHT_BEAM_WIDTH = Flashlight beam width
+option.FLASHLIGHT_BEAM_WIDTH = Beam width
 option.FLASHLIGHT_DISTANCE = Flashlight Distance

@@ -19,37 +19,42 @@ float fogEnd,
 vec3 fogColor
 ) {
     vec4 texColor = texture(gtexture, texCoord);
-    
     if (texColor.a < 0.1) discard;
     vec4 lightColor = texture(lightmap, lightCoord);
+    // if (nightVision > 0.0) {
+    //     lightColor /= 10;
+    // }
     float lightBrightness = (lightColor.r + lightColor.g + lightColor.b)/3.0;
+    // If there is night vision, make the lights a little brighter
+    // if (nightVision > 0.0) {
+    //     if (lightBrightness < 0.1) {
+    //         lightColor = vec4(1.0, 1.0, 1.0, 1.0);
+    //         lightBrightness = (lightColor.r + lightColor.g + lightColor.b)/3.0;
+    //     }
+    // }
+    
     vec4 newVertexColor = vertexColor;
-    if (nightVision > 0.0) {
-        makeTexturesBw(newVertexColor, texColor);
-        lightColor = vec4(1.0, 1.0, 1.0, 1.0);
-         } else if (flashlightLightStrength > 0.0) {
-
-        } else if (MEGA_DARKNESS_ENABLED == 1) {
-            lightBrightness = lightBrightness + flashlightLightStrength;
-            if (lightBrightness < 0.2) { //If in absolute darkness, see zilch
-                lightBrightness = 0.0;
-            } else if (lightBrightness < 0.4) {
-                if (vertexDistance < moonLighting*50.0) {
-                    float max_brightness = 0.6 * moonLighting;
-                    float distanceAway = (vertexDistance/(moonLighting*50));
-                    lightBrightness = max_brightness*(1.0-distanceAway);
-                    if (flashlightLightStrength == 0.0) {
-                        makeTexturesBw(newVertexColor, texColor);
-                    }
-                } else {
-                    lightBrightness = 0.0;
+    if (MEGA_DARKNESS_ENABLED == 1 && flashlightLightStrength <= 0.0) {
+        lightBrightness = lightBrightness + flashlightLightStrength;
+        if (lightBrightness < 0.2) { //If in absolute darkness, see zilch
+            lightBrightness = 0.0;
+        } else if (lightBrightness < 0.4) {
+            if (vertexDistance < moonLighting*50.0) {
+                float max_brightness = 0.6 * moonLighting;
+                float distanceAway = (vertexDistance/(moonLighting*50));
+                lightBrightness = max_brightness*(1.0-distanceAway);
+                if (flashlightLightStrength == 0.0) {
+                    makeTexturesBw(newVertexColor, texColor);
                 }
+            } else {
+                lightBrightness = 0.0;
+            }
             
         }
         lightColor = lightColor*lightBrightness;
     }
-    if (flashlightLightStrength > 0.0) {
-    vec4 modifiedFlashlightColor = vec4(flashlightColor.rgb*flashlightLightStrength, 0.0);
+    else if (flashlightLightStrength > 0.0) {
+    vec4 modifiedFlashlightColor = vec4(flashlightColor.rgb*flashlightLightStrength, 0.01);
     if (lightBrightness < 0.4) {
     lightColor *= smoothstep(0.0, 1.0, (1.0-(vertexDistance/FLASHLIGHT_DISTANCE)));
     }
