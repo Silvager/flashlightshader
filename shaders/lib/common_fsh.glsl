@@ -21,17 +21,7 @@ vec3 fogColor
     vec4 texColor = texture(gtexture, texCoord);
     if (texColor.a < 0.1) discard;
     vec4 lightColor = texture(lightmap, lightCoord);
-    // if (nightVision > 0.0) {
-    //     lightColor /= 10;
-    // }
     float lightBrightness = (lightColor.r + lightColor.g + lightColor.b)/3.0;
-    // If there is night vision, make the lights a little brighter
-    // if (nightVision > 0.0) {
-    //     if (lightBrightness < 0.1) {
-    //         lightColor = vec4(1.0, 1.0, 1.0, 1.0);
-    //         lightBrightness = (lightColor.r + lightColor.g + lightColor.b)/3.0;
-    //     }
-    // }
     
     vec4 newVertexColor = vertexColor;
     if (MEGA_DARKNESS_ENABLED == 1 && flashlightLightStrength <= 0.0) {
@@ -52,6 +42,7 @@ vec3 fogColor
             
         }
         lightColor = lightColor*lightBrightness;
+        lightColor.a = 1.0;
     }
     else if (flashlightLightStrength > 0.0) {
     vec4 modifiedFlashlightColor = vec4(flashlightColor.rgb*flashlightLightStrength, 0.01);

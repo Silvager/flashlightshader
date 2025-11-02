@@ -31,4 +31,3 @@ void main() {
     fogEnd,
     fogColor);
 }
-// mix it all into one thing

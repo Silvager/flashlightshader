@@ -3,7 +3,6 @@
 in vec2 texCoord;
 in vec4 vertexColor;
 
-// Our new textures!
 uniform sampler2D gtexture;
 
 layout(location = 0) out vec4 pixelColor;
