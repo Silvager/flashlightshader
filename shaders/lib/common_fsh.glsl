@@ -25,7 +25,6 @@ vec3 fogColor
     
     vec4 newVertexColor = vertexColor;
     if (MEGA_DARKNESS_ENABLED == 1 && flashlightLightStrength <= 0.0) {
-        lightBrightness = lightBrightness + flashlightLightStrength;
         if (lightBrightness < 0.2) { //If in absolute darkness, see zilch
             lightBrightness = 0.0;
         } else if (lightBrightness < 0.4) {
@@ -45,10 +44,10 @@ vec3 fogColor
         lightColor.a = 1.0;
     }
     else if (flashlightLightStrength > 0.0) {
-    vec4 modifiedFlashlightColor = vec4(flashlightColor.rgb*flashlightLightStrength, 0.01);
-    if (lightBrightness < 0.4 && MEGA_DARKNESS_ENABLED == 1) {
-    lightColor *= smoothstep(0.0, 1.0, (1.0-(vertexDistance/FLASHLIGHT_DISTANCE)));
-    }
+        vec4 modifiedFlashlightColor = vec4(flashlightColor.rgb*flashlightLightStrength, 0.01);
+        if (lightBrightness < 0.4 && MEGA_DARKNESS_ENABLED == 1) {
+            lightColor *= smoothstep(0.0, 1.0, (1.0-(vertexDistance/FLASHLIGHT_DISTANCE)));
+        }
     lightColor += modifiedFlashlightColor;
     }
     vec4 unFogColor = texColor * newVertexColor * lightColor;

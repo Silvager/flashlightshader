@@ -1,5 +1,5 @@
 #version 330 compatibility
-#include "/lib/settings.glsl"
+#include "/lib/vsh_fxns.glsl"
 
 out vec2 texCoord;
 out vec2 lightCoord;
@@ -18,16 +18,6 @@ void main() {
     vec3 normalizedVertexPos = normalize((gl_Vertex).xyz);
     float distanceToView = length(normalizedVertexPos-playerLookVector);
     vertexDistance = length((gl_ModelViewMatrix * gl_Vertex).xyz);
-    if ((distanceToView < FLASHLIGHT_BEAM_WIDTH) && (heldBlockLightValue > 0)) {
-        flashlightLightStrength = smoothstep(0.0, 1.0, (1.0-(vertexDistance/FLASHLIGHT_DISTANCE)));
-    } else {
-        flashlightLightStrength = 0.0;
-    }
-    int moonBrightness;
-    if (moonPhase <= 4) {
-        moonBrightness = 4-moonPhase;
-    } else {
-        moonBrightness = moonPhase-4;
-    }
-    moonLighting = moonBrightness/4.0;
+    flashlightLightStrength = getFlashlightLightStrength(heldBlockLightValue, gl_Vertex.xyz, playerLookVector, vertexDistance);
+    moonLighting = getMoonLighting(moonPhase);
 }
