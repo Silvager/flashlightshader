@@ -46,7 +46,7 @@ vec3 fogColor
     }
     else if (flashlightLightStrength > 0.0) {
     vec4 modifiedFlashlightColor = vec4(flashlightColor.rgb*flashlightLightStrength, 0.01);
-    if (lightBrightness < 0.4) {
+    if (lightBrightness < 0.4 && MEGA_DARKNESS_ENABLED == 1) {
     lightColor *= smoothstep(0.0, 1.0, (1.0-(vertexDistance/FLASHLIGHT_DISTANCE)));
     }
     lightColor += modifiedFlashlightColor;
