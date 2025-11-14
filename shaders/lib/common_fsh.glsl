@@ -1,11 +1,25 @@
 #include "/lib/settings.glsl"
-
-void makeTexturesBw(inout vec4 newVertexColor, inout vec4 texColor, float percentDarkened) {
-    float blackWhiteTexCol = (texColor.r+texColor.g+texColor.b)/3.0 * percentDarkened;
-    float blackWhiteVertexCol = (newVertexColor.r+newVertexColor.g+newVertexColor.b)/3.0 * percentDarkened;
-    newVertexColor = vec4(((newVertexColor.rgb * (1-percentDarkened))+blackWhiteVertexCol), newVertexColor.a);
-    texColor = vec4(((texColor.rgb * (1-percentDarkened))+blackWhiteTexCol), texColor.a);
+// This is the full bw with no gradient choice
+// Will be called by makeTexturesGrayed if it is full bw for performance
+void makeTexturesBw(inout vec4 newVertexColor, inout vec4 texColor) {
+    float blackWhiteTexCol = (texColor.r+texColor.g+texColor.b)/3.0;
+    float blackWhiteVertexCol = (newVertexColor.r+newVertexColor.g+newVertexColor.b)/3.0;
+    texColor = vec4(blackWhiteTexCol, blackWhiteTexCol, blackWhiteTexCol, texColor.a);
+    newVertexColor = vec4(blackWhiteVertexCol, blackWhiteVertexCol, blackWhiteVertexCol, newVertexColor.a);
 }
+// Make the textures less colorful depending on 0.0 (full color) to 1.0 (full bw)
+void makeTexturesGrayed(inout vec4 newVertexColor, inout vec4 texColor, float percentBw) {
+    if (percentBw >= 1.0) {
+        makeTexturesBw(newVertexColor, texColor);
+        return;
+    }
+    float blackWhiteTexCol = (texColor.r+texColor.g+texColor.b)/3.0 * percentBw;
+    float blackWhiteVertexCol = (newVertexColor.r+newVertexColor.g+newVertexColor.b)/3.0 * percentBw;
+    texColor = vec4(((texColor.rgb * (1-percentBw))+blackWhiteTexCol), texColor.a);
+    newVertexColor = vec4(((newVertexColor.rgb * (1-percentBw))+blackWhiteVertexCol), newVertexColor.a);
+}
+
+//Get the color from the megadarkness
 vec4 getDarkenedLightColor(vec4 lightColor, float vertexDistance, float moonLighting) {
     float lightBrightness = (lightColor.r+lightColor.g+lightColor.b)/3.0;
     if (lightBrightness < 0.1) { //If in absolute darkness, see zilch
@@ -48,11 +62,14 @@ vec3 fogColor
         vec4 modifiedFlashlightColor = vec4(flashlightColor.rgb*flashlightLightStrength, 0.1);
         lightColor.rgb += modifiedFlashlightColor.rgb;
     }
-    //Make it black and white scaling from fully at 0.2 light and none at 0.4 light
-    float lightBrightness = (lightColor.r + lightColor.g + lightColor.b)/3.0;
-    if (lightBrightness < 0.4) {
-        makeTexturesBw(newVertexColor, texColor, smoothstep(0.4, 0.2, lightBrightness));
+    //If megadarkness, make it black and white scaling from full bw at 0.2 light and full color at 0.4 light
+    if (MEGA_DARKNESS_ENABLED == 1) {
+        float lightBrightness = (lightColor.r + lightColor.g + lightColor.b)/3.0;
+        if (lightBrightness < 0.4) {
+            makeTexturesGrayed(newVertexColor, texColor, smoothstep(0.4, 0.2, lightBrightness));
+        }
     }
+    
     vec4 unFogColor = texColor * newVertexColor * lightColor;
     if (vertexDistance > fogStart) {
         float fogValue = vertexDistance < fogEnd ? smoothstep(fogStart, fogEnd, vertexDistance) : 1.0;

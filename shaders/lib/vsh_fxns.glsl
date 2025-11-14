@@ -1,5 +1,5 @@
 #include "/lib/settings.glsl"
-
+// Return the "strength" of the flashlight- 0 if not in beam, otherwise smoothstep based on dist
 float getFlashlightLightStrength(int heldBlockLightValue, vec3 vertexXYZ, vec3 playerLookVector, float vertexDistance) {
     if (heldBlockLightValue == 0) {
         return(0.0);

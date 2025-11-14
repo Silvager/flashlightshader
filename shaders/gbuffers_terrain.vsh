@@ -15,8 +15,6 @@ void main() {
     texCoord = vec2(gl_MultiTexCoord0.x, gl_MultiTexCoord0.y);
     lightCoord = (gl_TextureMatrix[1] * gl_MultiTexCoord1).xy;
     vertexColor = gl_Color;
-    vec3 normalizedVertexPos = normalize((gl_Vertex).xyz);
-    float distanceToView = length(normalizedVertexPos-playerLookVector);
     vertexDistance = length((gl_ModelViewMatrix * gl_Vertex).xyz);
     flashlightLightStrength = getFlashlightLightStrength(heldBlockLightValue, gl_Vertex.xyz, playerLookVector, vertexDistance);
     moonLighting = getMoonLighting(moonPhase);

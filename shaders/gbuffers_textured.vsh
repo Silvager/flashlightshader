@@ -17,6 +17,5 @@ void main() {
     vertexColor = gl_Color;
     vertexDistance = length((gl_ModelViewMatrix * gl_Vertex).xyz);
     flashlightLightStrength = getFlashlightLightStrength(heldBlockLightValue, gl_Vertex.xyz, playerLookVector, vertexDistance);
-    
     moonLighting = getMoonLighting(moonPhase);
 }
