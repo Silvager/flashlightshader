@@ -12,6 +12,18 @@ float getFlashlightLightStrength(int heldBlockLightValue, vec3 vertexXYZ, vec3 p
         return(0.0);
     }
 }
+// Only in this old version and only for gbuffers_textured
+float getFlashlightLightStrengthWithNormalizedVertexPos(int heldBlockLightValue, vec3 normalizedVertexPos, vec3 playerLookVector, float vertexDistance) {
+    if (heldBlockLightValue == 0) {
+        return(0.0);
+    }
+    float distanceToView = length(normalizedVertexPos-playerLookVector);
+    if (distanceToView < FLASHLIGHT_BEAM_WIDTH) {
+        return(smoothstep(0.0, 1.0, (1.0-(vertexDistance/FLASHLIGHT_DISTANCE))));
+    } else {
+        return(0.0);
+    }
+}
 
 float getMoonLighting(int moonPhase) {
     int moonBrightness;

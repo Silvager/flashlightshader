@@ -10,12 +10,19 @@ out float moonLighting;
 uniform int heldBlockLightValue;
 uniform vec3 playerLookVector;
 uniform int moonPhase;
+//U need this for the old versions
+uniform mat4 gbufferModelView;
 void main() {
     gl_Position = gl_ModelViewProjectionMatrix * (gl_Vertex);
     texCoord = vec2(gl_MultiTexCoord0.x, gl_MultiTexCoord0.y);
     lightCoord = (gl_TextureMatrix[1] * gl_MultiTexCoord1).xy;
     vertexColor = gl_Color;
-    vertexDistance = length((gl_ModelViewMatrix * gl_Vertex).xyz);
-    flashlightLightStrength = getFlashlightLightStrength(heldBlockLightValue, gl_Vertex.xyz, playerLookVector, vertexDistance);
+    // This stuff here is for the old versions of MC
+    // Gets the distance in a different way
+    // Also calls getFlashlightLightStrengthWithNormalizedVertexPos which is a special version
+    vec3 normalizedVertexPos = normalize((gl_Vertex * gbufferModelView).xyz);
+    vertexDistance = length((gl_ModelViewMatrix * (gl_Vertex * gbufferModelView)).xyz);
+    flashlightLightStrength = getFlashlightLightStrengthWithNormalizedVertexPos(heldBlockLightValue, normalizedVertexPos, playerLookVector, vertexDistance);
+    
     moonLighting = getMoonLighting(moonPhase);
 }
