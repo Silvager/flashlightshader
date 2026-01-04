@@ -13,7 +13,11 @@ uniform int moonPhase;
 void main() {
     gl_Position = gl_ModelViewProjectionMatrix * (gl_Vertex);
     texCoord = vec2(gl_MultiTexCoord0.x, gl_MultiTexCoord0.y);
-    lightCoord = (gl_TextureMatrix[1] * gl_MultiTexCoord1).xy;
+    // This light coord line is changed from
+    //lightCoord = (gl_TextureMatrix[1] * gl_MultiTexCoord1).xy;
+    //in previous versions.
+    lightCoord = mat2(gl_TextureMatrix[1]) * gl_MultiTexCoord1.xy;
+    
     vertexColor = gl_Color;
     vertexDistance = length((gl_ModelViewMatrix * gl_Vertex).xyz);
     flashlightLightStrength = getFlashlightLightStrength(heldBlockLightValue, gl_Vertex.xyz, playerLookVector, vertexDistance);
