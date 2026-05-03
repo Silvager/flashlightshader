@@ -22,3 +22,14 @@ float getMoonLighting(int moonPhase) {
     }
     return(float(moonBrightness)/4.0);
 }
+float getFogMult(float vertexDistance, float far) {
+    //Far is the view dist
+    float fogStart = far * fogStartNormalized; // fogStartNormalized is from settings.glsl
+    if (vertexDistance < fogStart) {
+        return 0.0;
+    }
+    if (vertexDistance > far) {
+        return 1.0;
+    }
+    return smoothstep(fogStart, far, vertexDistance);
+}

@@ -45,8 +45,7 @@ float moonLighting,
 sampler2D gtexture,
 sampler2D lightmap,
 float nightVision,
-float fogStart,
-float fogEnd,
+float fogMult,
 vec3 fogColor
 ) {
     vec4 texColor = texture(gtexture, texCoord);
@@ -71,10 +70,9 @@ vec3 fogColor
     }
     
     vec4 unFogColor = texColor * newVertexColor * lightColor;
-    if (vertexDistance > fogStart) {
-        float fogValue = vertexDistance < fogEnd ? smoothstep(fogStart, fogEnd, vertexDistance) : 1.0;
-        return(vec4(mix(unFogColor.rgb, fogColor, fogValue), unFogColor.a));
-    } else {
+    if (fogMult == 0) {
         return(unFogColor);
+    } else {
+        return(vec4(mix(unFogColor.rgb, fogColor.rgb, fogMult), unFogColor.a));
     }
 }

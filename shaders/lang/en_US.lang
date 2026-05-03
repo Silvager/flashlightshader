@@ -4,6 +4,9 @@ option.MEGA_DARKNESS_ENABLED = Enable Mega Darkness
 value.MEGA_DARKNESS_ENABLED.0 = No
 value.MEGA_DARKNESS_ENABLED.1 = Yes
 
+option.FOG_START_DISTANCE = Fog Start Distance
+suffix.FOG_START_DISTANCE=%
+
 option.FLASHLIGHT_COLOR_R = Red amount
 suffix.FLASHLIGHT_COLOR_R=%
 option.FLASHLIGHT_COLOR_G = Green amount

@@ -7,9 +7,13 @@ out vec4 vertexColor;
 out float vertexDistance;
 out float flashlightLightStrength;
 out float moonLighting;
+out float fogMult;
+
 uniform int heldBlockLightValue;
 uniform vec3 playerLookVector;
 uniform int moonPhase;
+uniform float far;
+
 void main() {
     gl_Position = gl_ModelViewProjectionMatrix * (gl_Vertex);
     texCoord = vec2(gl_MultiTexCoord0.x, gl_MultiTexCoord0.y);
@@ -18,4 +22,5 @@ void main() {
     vertexDistance = length((gl_ModelViewMatrix * gl_Vertex).xyz);
     flashlightLightStrength = getFlashlightLightStrength(heldBlockLightValue, gl_Vertex.xyz, playerLookVector, vertexDistance);
     moonLighting = getMoonLighting(moonPhase);
+    fogMult = getFogMult(vertexDistance, far);
 }

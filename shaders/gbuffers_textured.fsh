@@ -7,12 +7,11 @@ in vec4 vertexColor;
 in float vertexDistance;
 in float flashlightLightStrength;
 in float moonLighting;
+in float fogMult;
 
 uniform sampler2D gtexture;
 uniform sampler2D lightmap;
 uniform float nightVision;
-uniform float fogStart;
-uniform float fogEnd;
 uniform vec3 fogColor;
 
 layout(location = 0) out vec4 pixelColor;
@@ -27,7 +26,6 @@ void main() {
     gtexture,
     lightmap,
     nightVision,
-    fogStart,
-    fogEnd,
+    fogMult,
     fogColor);
 }
