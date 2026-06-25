@@ -13,6 +13,7 @@ uniform int heldBlockLightValue;
 uniform vec3 playerLookVector;
 uniform int moonPhase;
 uniform float far;
+uniform int isEyeInWater;
 
 void main() {
     gl_Position = gl_ModelViewProjectionMatrix * (gl_Vertex);
@@ -22,5 +23,5 @@ void main() {
     vertexDistance = length((gl_ModelViewMatrix * gl_Vertex).xyz);
     flashlightLightStrength = getFlashlightLightStrength(heldBlockLightValue, gl_Vertex.xyz, playerLookVector, vertexDistance);
     moonLighting = getMoonLighting(moonPhase);
-    fogMult = getFogMult(vertexDistance, far);
+    fogMult = getFogMult(vertexDistance, far, isEyeInWater == 1);
 }

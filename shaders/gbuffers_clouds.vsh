@@ -28,5 +28,5 @@ void main() {
     vertexDistance = length((gl_ModelViewMatrix * gl_Vertex).xyz);
     float horizontalVertexDistance = length((gl_ModelViewMatrix * gl_Vertex).xz);
     vertexColor = gl_Color;
-    fogMult = getCloudFogMult(horizontalVertexDistance, clamp(far*8, 100.0, 1000.0)); // Far has been increased because clouds render farther than blocks
+    fogMult = getCloudFogMult(horizontalVertexDistance, clamp(far*5, 100.0, 1000.0)); // Far has been increased because clouds render farther than blocks
 }

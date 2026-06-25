@@ -22,7 +22,10 @@ float getMoonLighting(int moonPhase) {
     }
     return(float(moonBrightness)/4.0);
 }
-float getFogMult(float vertexDistance, float far) {
+float getFogMult(float vertexDistance, float far, bool isEyeInWater) {
+    if (isEyeInWater) {
+        return smoothstep(0, 85.0, vertexDistance);
+    }
     //Far is the view dist
     float fogStart = far * fogStartNormalized; // fogStartNormalized is from settings.glsl
     if (vertexDistance < fogStart) {
