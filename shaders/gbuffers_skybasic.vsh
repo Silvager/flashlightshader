@@ -1,14 +1,10 @@
 #version 330 compatibility
 
-uniform mat4 modelViewMatrix;
-uniform mat4 projectionMatrix;
-
-in vec3 Position;
-in vec4 Color;
-
 out vec4 vertexColor;
+out vec3 viewPos;
 
 void main() {
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(Position, 1.0);
-    vertexColor = Color;
+    gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
+    vertexColor = gl_Color;
+    viewPos = gl_Vertex.xyz;
 }

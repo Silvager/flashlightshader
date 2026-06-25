@@ -18,7 +18,7 @@ void main() {
     vec4 lightColor = texture(lightmap, lightCoord);
     pixelColor = texColor * lightColor * vertexColor;
 
-    // if (fogMult == 0) return;
-    // if (fogMult == 1.0) discard;
-    // pixelColor = vec4(mix(pixelColor.xyz, fogColor, fogMult), pixelColor.a-fogMult);
+    if (fogMult == 0) return;
+    if (fogMult == 1.0) discard;
+    pixelColor = vec4(mix(pixelColor.xyz, fogColor, fogMult), pixelColor.a-fogMult);
 }
