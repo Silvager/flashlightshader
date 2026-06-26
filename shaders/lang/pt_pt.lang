@@ -1,0 +1,18 @@
+screen.FLASHLIGHT_OPTIONS = Opções da lanterna
+
+option.MEGA_DARKNESS_ENABLED = Activar obscuridão extrema
+value.MEGA_DARKNESS_ENABLED.0 = Não
+value.MEGA_DARKNESS_ENABLED.1 = Sim
+
+option.FOG_START_DISTANCE = Início da névoa
+suffix.FOG_START_DISTANCE=%
+
+option.FLASHLIGHT_COLOR_R = Quantidade vermelho
+suffix.FLASHLIGHT_COLOR_R=%
+option.FLASHLIGHT_COLOR_G = Quantidade verde
+suffix.FLASHLIGHT_COLOR_G=%
+option.FLASHLIGHT_COLOR_B = Quantidade azul
+suffix.FLASHLIGHT_COLOR_B=%
+
+option.FLASHLIGHT_BEAM_WIDTH = Largura do feixe
+option.FLASHLIGHT_DISTANCE = Distancia

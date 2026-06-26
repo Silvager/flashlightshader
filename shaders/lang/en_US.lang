@@ -15,4 +15,4 @@ option.FLASHLIGHT_COLOR_B = Blue amount
 suffix.FLASHLIGHT_COLOR_B=%
 
 option.FLASHLIGHT_BEAM_WIDTH = Beam width
-option.FLASHLIGHT_DISTANCE = Flashlight Distance
+option.FLASHLIGHT_DISTANCE = Distance

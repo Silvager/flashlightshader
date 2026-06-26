@@ -4,6 +4,9 @@ option.MEGA_DARKNESS_ENABLED = Activar oscuridad extrema
 value.MEGA_DARKNESS_ENABLED.0 = No
 value.MEGA_DARKNESS_ENABLED.1 = Sí
 
+option.FOG_START_DISTANCE = Inicio de la niebla
+suffix.FOG_START_DISTANCE=%
+
 option.FLASHLIGHT_COLOR_R = Cantidad rojo
 suffix.FLASHLIGHT_COLOR_R=%
 option.FLASHLIGHT_COLOR_G = Cantidad verde
@@ -12,4 +15,4 @@ option.FLASHLIGHT_COLOR_B = Cantidad azul
 suffix.FLASHLIGHT_COLOR_B=%
 
 option.FLASHLIGHT_BEAM_WIDTH = Ancho del haz
-option.FLASHLIGHT_DISTANCE = Distancia de linterna
+option.FLASHLIGHT_DISTANCE = Distancia
